@@ -196,8 +196,8 @@ Aanmaken unit testen `Index` methode
 - Definieer een `private` field `_cart` van het type `Cart`, een `private` field `_controller` van
 het type `CartController`.
 - De constructor
--  Instantieer een `Mock<IProductRepository>` en gebruik deze om de `CartController` te instantiëren.
--  Instantieer een `DummyApplicationDbContext`. Instantieer een `Cart` en voeg er een `Football` uit de `DummyApplicationDbContext` aan toe.
+    -  Instantieer een `Mock<IProductRepository>` en gebruik deze om de `CartController` te instantiëren.
+    -  Instantieer een `DummyApplicationDbContext`. Instantieer een `Cart` en voeg er een `Football` uit de `DummyApplicationDbContext` aan toe.
     ```cs
     _cart = new Cart(); _cart.AddLine(context.Football, 2);
     ```
