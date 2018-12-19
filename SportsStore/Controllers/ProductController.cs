@@ -37,9 +37,16 @@ namespace SportsStore.Controllers {
 
         [HttpPost]
         public IActionResult Edit(int id, EditViewModel editViewModel) {
-            Product product = _productRepository.GetById(id);
-            product.EditProduct(editViewModel.Name, editViewModel.Description, editViewModel.Price, editViewModel.InStock, _categoryRepository.GetById(editViewModel.CategoryId), editViewModel.Availability);
-            _productRepository.SaveChanges();
+            try {
+                Product product = _productRepository.GetById(id);
+                product.EditProduct(editViewModel.Name, editViewModel.Description, editViewModel.Price, editViewModel.InStock, _categoryRepository.GetById(editViewModel.CategoryId), editViewModel.Availability);
+                _productRepository.SaveChanges();
+                TempData["Message"] = "Product is succesfully edited";
+                
+            }
+            catch {
+                TempData["Error"] = "Something went wrong";
+            }
             return RedirectToAction(nameof(Index));
         }
 
@@ -56,9 +63,15 @@ namespace SportsStore.Controllers {
 
         [HttpPost]
         public IActionResult Create(EditViewModel editViewModel) {
-            var product = new Product(editViewModel.Name, editViewModel.Price, _categoryRepository.GetById(editViewModel.CategoryId), editViewModel.Description, editViewModel.InStock, editViewModel.Availability);
-            _productRepository.Add(product);
-            _productRepository.SaveChanges();
+            try {
+                var product = new Product(editViewModel.Name, editViewModel.Price, _categoryRepository.GetById(editViewModel.CategoryId), editViewModel.Description, editViewModel.InStock, editViewModel.Availability);
+                _productRepository.Add(product);
+                _productRepository.SaveChanges();
+                TempData["Message"] = $"{editViewModel.Name} is succesfully created";
+            }
+            catch {
+                TempData["Error"] = $"{editViewModel.Name} was not created, something went wrong";
+            }
             return RedirectToAction(nameof(Index));
         }
 
@@ -72,9 +85,15 @@ namespace SportsStore.Controllers {
 
         [HttpPost, ActionName("Delete")]
         public IActionResult DeleteConfirmed(int id) {
-            Product product = _productRepository.GetById(id);
-            _productRepository.Delete(product);
-            _productRepository.SaveChanges();
+            try {
+                Product product = _productRepository.GetById(id);
+                _productRepository.Delete(product);
+                _productRepository.SaveChanges();
+                TempData["Message"] = $"Product was succesfully deleted.";
+            }
+            catch {
+                TempData["Error"] = $"Product was not deleted.";
+            }
             return RedirectToAction(nameof(Index));
         }
     }
